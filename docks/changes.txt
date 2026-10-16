@@ -1,4 +1,5 @@
 26.10.16
+Removed most of the silence at the start of the left squeak sound.
 Fixed the balloon sounds sometimes getting quieter when you pressed and released Space quickly.
 The deflating sound now only plays for as long as you held Space, and the music comes back in that same time.
 Holding and releasing Space now has a 200 ms cooldown, so you can no longer spam the balloon.
