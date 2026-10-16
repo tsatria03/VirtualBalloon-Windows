@@ -126,7 +126,10 @@ class Game:
             self.speech.output(text, interrupt=True)
 
     def toggle_announcements(self):
-        """The A key: turns the game's announcements off or on. The answer is always spoken."""
+        """The A key: turns the game's announcements off or on. The answer is always spoken.
+        It does nothing while the On Beat logo plays."""
+        if self.state == "logo":
+            return
         self.announcements = not self.announcements
         save_setting("Announcements", self.announcements)
         self.speech.output("Announcements on" if self.announcements else "Announcements off", interrupt=True)
