@@ -18,7 +18,7 @@ At 16, 26 and 32 seconds the balloon squeaks, from the center, the left and the 
 It is only a bluff, so keep holding.
 If you let go too soon, the air goes out of the balloon for as long as you held on, and the music comes back.
 The game tells you how many seconds you held on, and you can hold Space again to try again.
-If you hold on to the end, at about 39 seconds, you win: the balloon pops, and a second later the crowd cheers.
+If you hold on long enough, you win: the balloon pops, and a second later the crowd cheers.
 Press Space as soon as the cheer starts to play again, and the game says "Ready".
 Then hold Space to start a new round.
 The balloon always inflates for at least a fifth of a second, however quickly you tap, and rests a fifth of a second after you let go, so tapping Space very fast does not do anything.
