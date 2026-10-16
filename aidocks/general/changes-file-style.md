@@ -12,4 +12,6 @@ Every change to the game gets a line in `docks/changes.txt` (the user moved it i
 - Lines are phrased as changes: "You can now ...", "Made ...", "... now plays ...".
 
 **Why:** the user rewrote my first changes.txt (a "Version 1.0" heading and plain feature lines) into this style on 2026-10-16.
+**Small follow-up tweaks** to something already listed (a changed number, a reworded message) edit the existing line instead of adding a new one (user, 2026-10-16: "For the change log, you can just modify one of the lines that exist").
+
 **How to apply:** add new lines at the top under today's date heading; start a new date heading above the older ones on a new day. Check the grammar of each line (both verbs after "Made the music ..." take the same form).
