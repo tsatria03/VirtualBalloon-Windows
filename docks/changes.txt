@@ -1,4 +1,5 @@
 26.10.16
+Removed the silence at the start of the inflating sound.
 The music now plays at full volume (0 dB) instead of -10 dB, and fades back up to full volume after you let go.
 The crowd cheer now stops when you press Space to play again.
 The game now says "Inflating..." when you start holding Space.
