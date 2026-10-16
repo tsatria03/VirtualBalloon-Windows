@@ -10,6 +10,11 @@ from .round import COOLDOWN, Round
 from .settings import load_setting, save_setting
 from .speech import Speech
 
+#: What the H key says.
+HELP = ("Hold Space to blow up the balloon, and don't let go. Let go too soon and it deflates; "
+        "hold on for about 39 seconds and it pops. A turns announcements off or on. "
+        "H repeats this help. Escape quits.")
+
 
 class Game:
     def __init__(self):
@@ -51,6 +56,13 @@ class Game:
         save_setting("Announcements", self.announcements)
         self.speech.speak("Announcements on" if self.announcements else "Announcements off", interrupt=True)
 
+    def help(self):
+        """The H key: a quick help, always spoken, even with the announcements off.
+        It does nothing while the On Beat logo plays."""
+        if self.state == "logo":
+            return
+        self.speech.speak(HELP, interrupt=True)
+
     def play(self, name):
         return self.sounds[name].play()
 
@@ -84,7 +96,7 @@ class Game:
         self.round = None
         self.start_music()
         self.say("Virtual Balloon. Hold Space to blow up the balloon, and don't let go. "
-                 "A turns announcements off or on. Escape quits.")
+                 "H for help, A turns announcements off or on, Escape quits.")
 
     def ready(self):
         """Back to the start after a win: the next press starts a new round."""
@@ -145,6 +157,8 @@ class Game:
                         self.press_space(now)
                     elif event.key == pygame.K_a:
                         self.toggle_announcements()
+                    elif event.key == pygame.K_h:
+                        self.help()
             if self.state == "logo" and now >= logo_ends:
                 self.title()
             holding = pygame.key.get_pressed()[pygame.K_SPACE]
