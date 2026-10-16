@@ -1,5 +1,5 @@
 """The game's voice: every announcement goes to the player's screen reader, or to a plain
-Windows voice when none is running. Adapted from the speech module of Sixth Sense Reborn.
+Windows voice when none is running.
 
 Before every line, the first of these that can speak says it:
 

@@ -3,8 +3,7 @@
 Double-click this file, or run py releaser.py, and it offers a numbered menu: the whole release, or any one
 step of it. Every step says what it is about to do and asks Y or N first, and it waits for Enter at the
 end so you can hear how it went. compiler.py does the building; this does everything around it, the zip
-included. Adapted from Sixth Sense Reborn's releaser, for Windows only and with no GitHub workflow: the
-release is built here and uploaded from here.
+included. Windows only, with no GitHub workflow: the release is built here and uploaded from here.
 
 The steps, in the order a full release takes them:
 

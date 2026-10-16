@@ -2,8 +2,7 @@
 
 It builds into dist\\VirtualBalloon-Windows, and nothing else: it never zips and never changes the
 repository. Setting the version, filing the changelog, zipping, tagging and uploading a release are
-releaser.py's work, and the releaser calls this to do the building. Adapted from Sixth Sense Reborn's
-compiler, for Windows only.
+releaser.py's work, and the releaser calls this to do the building. Windows only.
 
 Double-click this file, or run py compiler.py with nothing after it, and it offers a numbered menu of
 builds, then waits for Enter at the end so you can hear how it went. Each choice is one of these flags,

@@ -4,14 +4,16 @@ This file points Claude to the project's memories. The memories themselves live 
 
 ## About the project
 
-Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Python with pygame and Prism (`requirements.txt`). Layout, modelled on the user's Sixth Sense Reborn port (since 2026-10-16):
+Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Python with pygame and Prism (`requirements.txt`). Layout (since 2026-10-16):
 - `VirtualBalloon.py`: the entry point only.
 - `virtualballoon/`: the package. `game.py` (the `Game` class: sounds, keys, announcements), `round.py` (the rules and timings), `audio.py` (decibels and fades), `speech.py` (NVDA's own client, then Prism), `settings.py` (the registry), `paths.py` (where `game/` and `vendor/` are, also inside a PyInstaller build).
 - `game/`: the original app bundle's contents; the sounds are in `game/balloon.gameproj/sounds/`. `game/SC_Info/` (the App Store license from the user's download) is in `.gitignore`.
 - `vendor/nvda/`: the NVDA controller client DLL and its license.
 - `docks/changelog.txt`: the change list; `README.md`, an MIT `LICENSE`.
-- `compiler.py` (PyInstaller build into `dist/VirtualBalloon-Windows`) and `releaser.py` (version, changelog, build, zip, commit, tag, GitHub upload), both Windows-only, adapted from Sixth Sense Reborn's; no GitHub workflows (`build-and-release.md`).
-- `user/` (ignored): the user's other projects for reference, such as the Sixth Sense port. Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file. **Status: complete** since 2026-10-16 (the user: "it's good as complete"); change it only when the user asks.
+- `compiler.py` (PyInstaller build into `dist/VirtualBalloon-Windows`) and `releaser.py` (version, changelog, build, zip, commit, tag, GitHub upload), both Windows-only; no GitHub workflows (`build-and-release.md`).
+- `user/` (ignored): the user's other projects, for reference (which ones: `aidocks/private/reference-projects.md`).
+
+Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file. **Status: complete** since 2026-10-16 (the user: "it's good as complete"); change it only when the user asks.
 
 ## Where memories live
 

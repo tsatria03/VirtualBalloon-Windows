@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-Since 2026-10-16 the game has `compiler.py` and `releaser.py`, adapted from Sixth Sense Reborn's (in the ignored `user/` folder). The user: "This game is only for windows only. We don't need github workflows."
+Since 2026-10-16 the game has `compiler.py` and `releaser.py`, adapted from another of the user's projects (see `aidocks/private/reference-projects.md`). The user: "This game is only for windows only. We don't need github workflows."
 
 - **compiler.py**: PyInstaller into `dist/VirtualBalloon-Windows` (`VirtualBalloon.exe`). Menu or flags: folder build, `--test`, `--embed` (sounds inside), `--clean`, `--console`, `--onefile`, `--no-game`, `--dry-run`. Bundles the NVDA DLL, Prism (`--collect-all prism`, `_cffi_backend`, and `prism/_native/*.pyd` added by name) and the licenses (NVDA client, Prism's dist-info licenses, pygame's LGPL) as `licenses/` inside. Of `game/` the whole `balloon.gameproj` ships (since 2026-10-16, user: "copy all of the gameproj folders back, except for the private apple id stuff"): actors, scenes, images, sounds and its 3 XML files, 35 files (`gameproj_files()`); never the iOS binary, the engine, the icons or `SC_Info`, and `NEVER_SHIP` (`*.sinf`, `*.supp`, `SC_Info`) is skipped wherever it appears. The game itself reads only the sounds. `--embed` stages the folder in `build/embed/balloon.gameproj` first. Beside the exe: `docks/changelog.txt` (empty `unrelease:` heading stripped from the copy), `VERSION`, `license.txt`.
 - **--test** starts the build with `--exit-after 6` and `VIRTUALBALLOON_SILENT=1`, SDL dummy video and audio: no window, sound or speech; passes on exit code 0. First run 2026-10-16: built in 25 s, test passed, 173 files, 37.8 MB.
