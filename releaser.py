@@ -15,7 +15,7 @@ The steps, in the order a full release takes them:
                   release on the 16th of October 2026, -2 for the second, counted from the tags; and the
                   lines under "unrelease:" are filed under that version in docks\\changelog.txt
     3. build      compiler.py builds it into dist\\VirtualBalloon-Windows: the folder build, or the single
-                  executable with the sounds inside. If the build fails, VERSION and the changelog go
+                  executable with balloon.gameproj inside. If the build fails, VERSION and the changelog go
                   back to how they were
     4. zip        the build becomes dist\\VirtualBalloon-Win-<version>.zip, which extracts to a
                   VirtualBalloon-Windows folder - only a build made for this version, so an older build
@@ -423,8 +423,8 @@ def restore(saved) -> None:
 def choose_build():
     """Which build: the folder, or the single executable. None to skip."""
     say('which build should the release carry?')
-    say('  1. the game in a folder, with its sounds beside the executable')
-    say('  2. a single executable, with the sounds inside it')
+    say('  1. the game in a folder, with balloon.gameproj beside the executable')
+    say('  2. a single executable, with balloon.gameproj inside it')
     say('  0. skip the build')
     while True:
         try:

@@ -87,17 +87,19 @@ menu, then waits for Enter at the end so you can hear how it went.
 **`compiler.py`** builds the game with PyInstaller (`pip install pyinstaller`) into
 `dist\VirtualBalloon-Windows`, around `VirtualBalloon.exe`:
 
-    py compiler.py                the folder build: the sounds beside the executable
+    py compiler.py                the folder build: balloon.gameproj beside the executable
     py compiler.py --test         the folder build, then start it silently for a few seconds to check it works
-    py compiler.py --embed        one executable with the sounds inside it
+    py compiler.py --embed        one executable with balloon.gameproj inside it
     py compiler.py --clean        empty PyInstaller's cache first
     py compiler.py --console      keep a console window, to see why the game will not start
-    py compiler.py --onefile      one executable with the sounds still beside it
-    py compiler.py --no-game      leave the sounds out
+    py compiler.py --onefile      one executable with balloon.gameproj still beside it
+    py compiler.py --no-game      leave balloon.gameproj out
     py compiler.py --dry-run      say what a build would do, build nothing
 
 The game, the NVDA controller client, Prism and the third-party licenses (in `licenses\`) go inside
-the executable. Of `game\`, a build carries only the sounds, the one thing the game reads. Beside the
+the executable. Of `game\`, a build carries the whole GameSalad project, `balloon.gameproj` - its
+scenes, actors, images and sounds, so you can look inside it - though the game reads only the
+sounds; never the iOS binary or the App Store license. Beside the
 executable go `docks\changelog.txt`, `VERSION` and `license.txt`. `--test` starts the finished build
 for 6 seconds with no window, no sound and no speech, and checks that it quits by itself.
 

@@ -1,5 +1,5 @@
 unrelease:
-The game can now be built into a Windows program and released, and says aloud why if it ever stops because of an error.
+The game can now be built into a Windows program and released, with the original game's scenes, actors, images and sounds beside it, and says aloud why if it ever stops because of an error.
 The game now speaks through NVDA directly, or through Prism for other screen readers and Windows voices when NVDA isn't running.
 You can now press A to turn the game's announcements off or on (except while the logo plays), and the game remembers your choice.
 Removed most of the silence at the start of the left squeak sound.

@@ -9,13 +9,13 @@ Double-click this file, or run py compiler.py with nothing after it, and it offe
 builds, then waits for Enter at the end so you can hear how it went. Each choice is one of these flags,
 which still work typed out:
 
-    py compiler.py                the folder build: the sounds beside the executable
+    py compiler.py                the folder build: balloon.gameproj beside the executable
     py compiler.py --test         the folder build, then start it silently for a few seconds to check it works
-    py compiler.py --embed        one executable with the sounds inside it
+    py compiler.py --embed        one executable with balloon.gameproj inside it
     py compiler.py --clean        empty PyInstaller's cache first
     py compiler.py --console      keep a console window, to see why the game will not start
-    py compiler.py --onefile      one executable with the sounds still beside it
-    py compiler.py --no-game      leave the sounds out
+    py compiler.py --onefile      one executable with balloon.gameproj still beside it
+    py compiler.py --no-game      leave balloon.gameproj out
     py compiler.py --dry-run      say what a build would do, build nothing
 
 Every build lands in dist\\VirtualBalloon-Windows, around VirtualBalloon.exe, with the text a player
@@ -24,10 +24,11 @@ license at the top. The third-party licenses go inside the executable, as licens
 what releaser.py zips into dist\\VirtualBalloon-Win-<VERSION>.zip.
 
 The game and the NVDA controller client always go inside the build. Of the original app bundle in
-game\\, a build carries only the sounds, the one thing the game reads: in the folder build they are
-copied beside the executable, into game\\balloon.gameproj\\sounds, which is where virtualballoon/paths.py
-looks for them; with --embed they go inside the executable instead. The rest of the bundle - the iOS
-binary, the GameSalad XML, the images and the App Store license - never goes into a build.
+game\\, a build carries the whole GameSalad project, balloon.gameproj - its scenes, actors, images and
+sounds - so a player can look inside it; the game itself reads only the sounds. In the folder build it is
+copied beside the executable, into game\\balloon.gameproj, which is where virtualballoon/paths.py looks for
+the sounds; with --embed it goes inside the executable instead. The rest of the bundle - the iOS binary,
+the engine, the icons, the code signature and the App Store license (SC_Info) - never goes into a build.
 
 --test starts the finished build for a few seconds, silently, with no window and no speech, and checks
 that it quits by itself with no error.
@@ -35,6 +36,7 @@ that it quits by itself with no error.
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import importlib.machinery
 import importlib.metadata
 import importlib.util
@@ -66,9 +68,15 @@ BINARIES = (('vendor/nvda/nvdaControllerClient64.dll', 'vendor/nvda'),)
 #: executable, and the file. Prism's and pygame's are not kept here - they come out of the installed
 #: packages when the build runs (license_files()), so they always match what was bundled.
 VENDOR_LICENSES = (('nvda-controller-client', ('vendor/nvda/license.txt',)),)
-#: The sounds, inside the game folder: all a build carries of the original app bundle.
-SOUNDS = os.path.join('game', 'balloon.gameproj', 'sounds')
+#: What a build carries of the original app bundle: the whole GameSalad project - its scenes, actors,
+#: images and sounds - so a player can look inside it (tsatria03, 2026-10-16). The game reads only the
+#: sounds. The rest of game\ - the iOS binary, the engine, the icons, the code signature and SC_Info,
+#: the App Store license from the user's own download - never goes into a build.
+GAMEPROJ = os.path.join('game', 'balloon.gameproj')
+SOUNDS = os.path.join(GAMEPROJ, 'sounds')
 SOUND_EXTENSIONS = ('.ogg',)
+#: Never copied, wherever they are: an App Store license carries its buyer's Apple account's ID.
+NEVER_SHIP = ('*.sinf', '*.supp', 'SC_Info')
 #: Copied beside the executable rather than bundled inside it, so the player can open them: what it is
 #: called here, and what it is called there. LICENSE has no extension, which is the convention on GitHub
 #: but means Windows asks what to open it with, so it ships as a .txt.
@@ -206,12 +214,48 @@ LICENSES_STAGE = os.path.join(HERE, 'build', 'embed', 'licenses')
 
 
 def sound_files() -> list[str]:
-    """The sounds a build carries, as paths from the repository's top: every .ogg in the sounds folder."""
+    """The sounds, as paths from the repository's top: every .ogg in the sounds folder."""
     folder = os.path.join(HERE, SOUNDS)
     if not os.path.isdir(folder):
         return []
     return [os.path.join(SOUNDS, name) for name in sorted(os.listdir(folder))
             if name.lower().endswith(SOUND_EXTENSIONS)]
+
+
+def _never_ship(name: str) -> bool:
+    return any(fnmatch.fnmatch(name.lower(), pattern.lower()) for pattern in NEVER_SHIP)
+
+
+def gameproj_files() -> list[str]:
+    """Everything a build carries of the app bundle, as paths from the repository's top: every file in
+    balloon.gameproj, in its folders, less anything in NEVER_SHIP."""
+    found = []
+    for dirpath, dirs, files in os.walk(os.path.join(HERE, GAMEPROJ)):
+        dirs[:] = sorted(d for d in dirs if not _never_ship(d))
+        found += [os.path.relpath(os.path.join(dirpath, name), HERE)
+                  for name in sorted(files) if not _never_ship(name)]
+    return found
+
+
+def data_summary(names: list[str]) -> str:
+    """What a list of the game's files holds, in words: '42 files - 8 sounds, and 34 scenes, actors and images'."""
+    sounds = sum(1 for name in names if name.lower().endswith(SOUND_EXTENSIONS))
+    return '%d files - %d sounds, and %d scenes, actors, images and project files' % (
+        len(names), sounds, len(names) - sounds)
+
+
+#: Where --embed gathers balloon.gameproj, less NEVER_SHIP, for PyInstaller to take as one folder.
+EMBED_STAGE = os.path.join(HERE, 'build', 'embed', 'balloon.gameproj')
+
+
+def stage_gameproj() -> None:
+    """Copy what --embed carries of balloon.gameproj into EMBED_STAGE, fresh."""
+    if os.path.isdir(EMBED_STAGE):
+        shutil.rmtree(EMBED_STAGE)
+    for name in gameproj_files():
+        target = os.path.join(EMBED_STAGE, os.path.relpath(name, GAMEPROJ))
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        shutil.copy2(os.path.join(HERE, name), target)
 
 
 def command(args) -> list[str]:
@@ -233,7 +277,7 @@ def command(args) -> list[str]:
         # one file lands in dist\VirtualBalloon-Windows too, so every build is one folder to zip
         cmd += ['--onefile', '--distpath', output_dir()]
     if args.embed and not args.no_game:
-        cmd += ['--add-data', os.path.join(HERE, SOUNDS) + os.pathsep + SOUNDS.replace(os.sep, '/')]
+        cmd += ['--add-data', EMBED_STAGE + os.pathsep + GAMEPROJ.replace(os.sep, '/')]
     # the third-party licenses go inside, whichever kind of build (stage_licenses fills the folder)
     cmd += ['--add-data', LICENSES_STAGE + os.pathsep + 'licenses']
     if args.clean:
@@ -267,13 +311,13 @@ def move_folder_build(dest_root: str) -> None:
         os.replace(built, dest_root)
 
 
-def copy_sounds(dest_root: str) -> bool:
-    """The folder build's sounds, beside the executable in game\\balloon.gameproj\\sounds."""
-    names = sound_files()
-    if not names:
-        say("  the sounds were not found in %s, so none were copied." % SOUNDS)
+def copy_gameproj(dest_root: str) -> bool:
+    """The folder build's balloon.gameproj, beside the executable in game\\balloon.gameproj."""
+    names = gameproj_files()
+    if not sound_files():
+        say("  the sounds were not found in %s, so nothing was copied." % SOUNDS)
         return False
-    say('copying %d sounds into %s ...' % (len(names), os.path.join(dest_root, SOUNDS)))
+    say('copying %s into %s ...' % (data_summary(names), os.path.join(dest_root, GAMEPROJ)))
     for name in names:
         target = os.path.join(dest_root, name)
         os.makedirs(os.path.dirname(target), exist_ok=True)
@@ -391,9 +435,9 @@ def test_build(exe: str) -> bool:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog='compiler.py', description='build Virtual Balloon with PyInstaller')
     parser.add_argument('--embed', action='store_true',
-                        help='one executable with the sounds inside it; the text a player reads stays beside it')
-    parser.add_argument('--onefile', action='store_true', help='one executable, with the sounds still beside it')
-    parser.add_argument('--no-game', action='store_true', help='leave the sounds out')
+                        help='one executable with balloon.gameproj inside it; the text a player reads stays beside it')
+    parser.add_argument('--onefile', action='store_true', help='one executable, with balloon.gameproj still beside it')
+    parser.add_argument('--no-game', action='store_true', help='leave balloon.gameproj out')
     parser.add_argument('--console', action='store_true',
                         help='keep a console window, where a failed start-up prints its traceback')
     parser.add_argument('--clean', action='store_true', help="throw away PyInstaller's cache first")
@@ -402,7 +446,7 @@ def main(argv=None) -> int:
                         help='after building, start the build for a few seconds, silently, to check it works')
     args = parser.parse_args(argv)
     if args.test and args.no_game:
-        say('--test needs the sounds in the build, so it cannot go with --no-game.')
+        say('--test needs balloon.gameproj in the build, so it cannot go with --no-game.')
         return 2
     os.chdir(HERE)                                      # the paths above are relative to the project
 
@@ -418,7 +462,7 @@ def main(argv=None) -> int:
     dest_root = output_dir()
     sounds = [] if args.no_game else sound_files()
     if args.embed and not sounds and not args.no_game:
-        say('--embed puts the sounds inside the executable, and the sounds were not found in %s.' % SOUNDS)
+        say('--embed puts balloon.gameproj inside the executable, and its sounds were not found in %s.' % SOUNDS)
         if not args.dry_run:
             return 2
 
@@ -426,12 +470,13 @@ def main(argv=None) -> int:
     say('running: python ' + ' '.join(cmd[1:]))
     if args.dry_run:
         if args.no_game:
-            say('the sounds would be left out.')
+            say('balloon.gameproj would be left out.')
         elif args.embed:
-            say('%d sounds would go inside the executable, and nothing else from the app bundle.' % len(sounds))
+            say('balloon.gameproj would go inside the executable: %s, and nothing else from the app bundle.'
+                % data_summary(gameproj_files()))
         else:
-            say('%d sounds would then be copied into %s, and nothing else from the app bundle.'
-                % (len(sounds), os.path.join(dest_root, SOUNDS)))
+            say('balloon.gameproj would then be copied into %s: %s, and nothing else from the app bundle.'
+                % (os.path.join(dest_root, GAMEPROJ), data_summary(gameproj_files())))
         for name, shipped_as in SIDE_FILES:
             say('%s would be copied into the build%s%s'
                 % (name, '' if shipped_as == name else ', as %s' % shipped_as,
@@ -450,6 +495,8 @@ def main(argv=None) -> int:
         return 0
 
     stage_licenses()
+    if args.embed and sounds:
+        stage_gameproj()
     clear_output(dest_root)
     started = time.perf_counter()
     if subprocess.run(cmd).returncode != 0:
@@ -460,9 +507,9 @@ def main(argv=None) -> int:
         move_folder_build(dest_root)
 
     if sounds and not args.embed:
-        copy_sounds(dest_root)
+        copy_gameproj(dest_root)
     elif sounds:
-        say('%d sounds are inside the executable.' % len(sounds))
+        say('balloon.gameproj is inside the executable: %s.' % data_summary(gameproj_files()))
     copy_side_files(dest_root)
     strip_shipped_changelog(dest_root)
 
@@ -472,7 +519,7 @@ def main(argv=None) -> int:
     exe = os.path.join(dest_root, EXE)
     say()
     say('the game is %s' % exe)
-    say("the folder around it is what releaser.py zips, and the sounds in it are On Beat Limited's.")
+    say("the folder around it is what releaser.py zips, and balloon.gameproj in it is On Beat Limited's.")
     if args.test:
         say()
         if not test_build(exe):
@@ -485,16 +532,16 @@ def main(argv=None) -> int:
 # the flags. Each choice is exactly one of the command lines above, so the two can never disagree.
 
 MENU = (
-    ('Folder build: the game in a folder, with its sounds beside the executable', []),
+    ('Folder build: the game in a folder, with balloon.gameproj beside the executable', []),
     ('Folder build and test: the folder build, then start it silently for a few seconds to check it works',
      ['--test']),
-    ('Single exe: the sounds inside one executable', ['--embed']),
+    ('Single exe: balloon.gameproj inside one executable', ['--embed']),
     ('Single exe and test: the single exe, then start it silently for a few seconds to check it works',
      ['--embed', '--test']),
     ("Clean build: empty PyInstaller's cache first, for when a build behaves oddly", ['--clean']),
     ('Build with a console window, to see why the game will not start', ['--console']),
-    ('One-file build: a single executable, with the sounds still beside it', ['--onefile']),
-    ('Build without the sounds', ['--no-game']),
+    ('One-file build: a single executable, with balloon.gameproj still beside it', ['--onefile']),
+    ('Build without balloon.gameproj', ['--no-game']),
     ('Show what a build would do, without building anything', ['--dry-run']),
 )
 
