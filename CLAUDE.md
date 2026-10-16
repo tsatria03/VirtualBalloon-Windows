@@ -4,7 +4,7 @@ This file points Claude to the project's memories. The memories themselves live 
 
 ## About the project
 
-Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Python with pygame (`VirtualBalloon.py`), with sounds in `sounds/`, the change list in `docks/changes.txt`, a `README.md` and an MIT `LICENSE`. Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file.
+Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Python with pygame (`VirtualBalloon.py`), with sounds in `sounds/`, the change list in `docks/changes.txt`, a `README.md` and an MIT `LICENSE`. Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file. **Status: complete** since 2026-10-16 (the user: "it's good as complete"); change it only when the user asks.
 
 ## Where memories live
 
