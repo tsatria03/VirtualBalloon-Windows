@@ -103,6 +103,13 @@ class Game:
     def play(self, name):
         return self.sounds[name].play()
 
+    def play_balloon(self, name):
+        """Plays an inflating or deflating sound on the balloon channel, at full volume.
+        A new sound that starts while the channel is fading out stops the fade but keeps
+        the volume it had reached (SDL_mixer), so the volume is set back every time."""
+        self.balloon.play(self.sounds[name])
+        self.balloon.set_volume(1.0)
+
     def start_music(self):
         if not self.music.get_busy():
             self.music.play(self.sounds["music"], loops=-1)
@@ -160,7 +167,7 @@ class Game:
         self.start_music()
         self.fade_start_db = self.music_db  # fade from here, even if it's still coming back up
         self.round = Round(time.monotonic())
-        self.balloon.play(self.sounds["balloon_inflate"])
+        self.play_balloon("balloon_inflate")
         self.state = "playing"
         self.say("Inflating...")
 
@@ -193,7 +200,7 @@ class Game:
     def step(self, now, holding):
         for event in self.round.update(now, holding or self.state == "won"):
             if event == "lost":
-                self.balloon.play(self.sounds["balloon_deflate"])  # replaces the inflating sound
+                self.play_balloon("balloon_deflate")  # replaces the inflating sound
                 full = self.sounds["balloon_deflate"].get_length()
                 self.deflate_length = min(now - self.round.start, full)  # as long as you held on
                 self.deflate_cut = False
