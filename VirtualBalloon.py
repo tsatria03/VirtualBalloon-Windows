@@ -26,7 +26,7 @@ def db_to_volume(db):
     return 10 ** (db / 20)
 
 
-MUSIC_DB = 0            # the music's normal volume: full
+MUSIC_DB = -10          # the music's normal volume
 MUSIC_SILENT_DB = -100  # where it fades to while you blow up the balloon
 
 
