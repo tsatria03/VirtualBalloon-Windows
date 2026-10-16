@@ -26,22 +26,13 @@ def db_to_volume(db):
 
 MUSIC_DB = -10          # the music's normal volume
 MUSIC_SILENT_DB = -100  # where it fades to while you blow up the balloon
-RETURN_SPEED = 40       # dB per second when it comes back after you let go
 
 
-def fade_db(current, target, seconds):
-    """Moves current toward target at RETURN_SPEED, without going past it."""
-    step = RETURN_SPEED * seconds
-    if current < target:
-        return min(current + step, target)
-    return max(current - step, target)
-
-
-def inflating_db(start_db, held, length):
-    """The music's volume while you hold Space: a steady fade from start_db to
-    MUSIC_SILENT_DB over the inflating sound's length, so it's gone by the pop."""
-    part = min(held / length, 1)
-    return start_db + (MUSIC_SILENT_DB - start_db) * part
+def fade_db(start_db, end_db, elapsed, length):
+    """A steady fade (in dB) from start_db to end_db that takes length seconds.
+    The music fades out over the inflating sound, and back in over the deflating one."""
+    part = min(elapsed / length, 1)
+    return start_db + (end_db - start_db) * part
 
 
 class Round:
@@ -89,7 +80,8 @@ class Game:
             for name in os.listdir(SOUNDS) if name.endswith(".ogg")
         }
         self.music_db = MUSIC_DB
-        self.fade_start_db = MUSIC_DB  # where the music was when you started holding Space
+        self.fade_start_db = MUSIC_DB  # where the music was when its current fade began
+        self.fade_start = 0.0          # when the fade back in began (after letting go)
         self.sounds["music"].set_volume(db_to_volume(MUSIC_DB))
         # Two channels of their own: the music, and the balloon. Playing a sound on a
         # channel replaces what it was playing, so inflating and deflating never overlap.
@@ -111,12 +103,13 @@ class Game:
 
     def fade_music(self, now, seconds):
         """Sets the music's volume for this frame. While you hold Space it fades out
-        over the inflating sound; otherwise it comes back up to MUSIC_DB."""
+        over the inflating sound; after you let go it fades back in over the deflating one."""
         if self.state == "playing":
             length = self.sounds["balloon_inflate"].get_length()
-            db = inflating_db(self.fade_start_db, now - self.round.start, length)
-        elif self.music_db != MUSIC_DB:
-            db = fade_db(self.music_db, MUSIC_DB, seconds)
+            db = fade_db(self.fade_start_db, MUSIC_SILENT_DB, now - self.round.start, length)
+        elif self.state == "lost" and self.music_db != MUSIC_DB:
+            length = self.sounds["balloon_deflate"].get_length()
+            db = fade_db(self.fade_start_db, MUSIC_DB, now - self.fade_start, length)
         else:
             return
         if db != self.music_db:
@@ -178,6 +171,7 @@ class Game:
         for event in self.round.update(now, holding or self.state == "won"):
             if event == "lost":
                 self.balloon.play(self.sounds["balloon_deflate"])  # replaces the inflating sound
+                self.fade_start_db, self.fade_start = self.music_db, now  # fade back in from here
                 held = self.round.seconds_held(now)
                 self.say(f"You let go after {held} second{'s' if held != 1 else ''}. Hold Space to try again.")
                 self.state = "lost"
