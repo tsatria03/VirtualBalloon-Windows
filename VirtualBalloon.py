@@ -19,6 +19,7 @@ WIN_AT = 38.75       # the win screen appears; the inflating sound plays on to t
 CHEER_AFTER_WIN = 1  # the crowd cheers 1 second into the win screen
 RESTART_AFTER_WIN = 4  # keys are ignored this long, so the pop and cheer can finish
 COOLDOWN = 0.5       # the balloon inflates at least this long, and rests this long after you let go
+DEFLATE_CUT_FADE_MS = 30  # the deflating sound fades out this quickly when it's cut short
 
 
 def db_to_volume(db):
@@ -85,6 +86,8 @@ class Game:
         self.fade_start_db = MUSIC_DB  # where the music was when its current fade began
         self.fade_start = 0.0          # when the fade back in began (after letting go)
         self.lost_at = 0.0             # when you last let go too soon, for the cooldown
+        self.deflate_length = 0.0      # how long the deflating sound plays: as long as you held on
+        self.deflate_cut = True        # whether that cut has been made
         self.sounds["music"].set_volume(db_to_volume(MUSIC_DB))
         # Two channels of their own: the music, and the balloon. Playing a sound on a
         # channel replaces what it was playing, so inflating and deflating never overlap.
@@ -111,8 +114,7 @@ class Game:
             length = self.sounds["balloon_inflate"].get_length()
             db = fade_db(self.fade_start_db, MUSIC_SILENT_DB, now - self.round.start, length)
         elif self.state == "lost" and self.music_db != MUSIC_DB:
-            length = self.sounds["balloon_deflate"].get_length()
-            db = fade_db(self.fade_start_db, MUSIC_DB, now - self.fade_start, length)
+            db = fade_db(self.fade_start_db, MUSIC_DB, now - self.fade_start, self.deflate_length)
         else:
             return
         if db != self.music_db:
@@ -141,6 +143,12 @@ class Game:
             self.try_again(now, True)
         elif self.state == "won" and self.round.can_restart(now):
             self.ready()
+
+    def cut_deflate(self, now):
+        """Ends the deflating sound once it has played as long as you held on; called every frame."""
+        if self.state == "lost" and not self.deflate_cut and now - self.lost_at >= self.deflate_length:
+            self.balloon.fadeout(DEFLATE_CUT_FADE_MS)  # a very short fade, so the cut doesn't click
+            self.deflate_cut = True
 
     def try_again(self, now, holding):
         """After letting go too soon, holding Space tries again once the cooldown is over,
@@ -178,6 +186,7 @@ class Game:
             if self.state in ("playing", "won"):
                 self.step(now, holding)
             elif self.state == "lost":
+                self.cut_deflate(now)
                 self.try_again(now, holding)
             self.fade_music(time.monotonic(), clock.tick(60) / 1000)
 
@@ -185,6 +194,9 @@ class Game:
         for event in self.round.update(now, holding or self.state == "won"):
             if event == "lost":
                 self.balloon.play(self.sounds["balloon_deflate"])  # replaces the inflating sound
+                full = self.sounds["balloon_deflate"].get_length()
+                self.deflate_length = min(now - self.round.start, full)  # as long as you held on
+                self.deflate_cut = False
                 self.fade_start_db, self.fade_start = self.music_db, now  # fade back in from here
                 self.lost_at = now
                 held = self.round.seconds_held(now)
