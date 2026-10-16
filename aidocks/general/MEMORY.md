@@ -1,0 +1,6 @@
+- [Screen reader user](screen-reader-user.md) — the user uses NVDA; every game message must be spoken
+- [No pickers](no-pickers.md) — ask questions as plain text, ONE question per reply; never use the picker
+- [Game tests in the background](game-tests-background.md) — test headless (dummy SDL drivers, speech off) as a background command; never start the game
+- [changes.txt style](changes-file-style.md) — docks/changes.txt: YY.MM.DD date headings, newest first, one sentence per line ("You can now…", "Made…")
+- [How the game works](how-the-game-works.md) — the original's timings (squeaks 16/26/32, win 39, pop ~39.3, cheer 40, restart 43) and how VirtualBalloon.py copies them, incl. music ducking
+- [Original app (private)](../private/original-app.md) — where the original came from: App ID, the user's download, sound conversion

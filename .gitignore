@@ -1,0 +1,4 @@
+aidocks/private/
+__pycache__/
+build/
+dist/
