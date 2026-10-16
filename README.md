@@ -12,8 +12,10 @@ your screen reader, so it can be played without looking at the screen.
 
 ## Download
 
-Releases will be published on the
-[releases page](https://github.com/tsatria03/VirtualBalloon-Windows/releases). A version is
+Releases are published on the
+[releases page](https://github.com/tsatria03/VirtualBalloon-Windows/releases). Each release has a
+zip, `VirtualBalloon-Win-<version>.zip`: extract it and run `VirtualBalloon.exe` in the
+`VirtualBalloon-Windows` folder it contains. A version is
 the date of the release and that day's number: `26.10.15-1` is the first release of the
 15th of October 2026. The changelog in `docks/changelog.txt` lists what each release
 changed.
@@ -77,6 +79,37 @@ right, as if it were about to burst. It is a bluff: keep holding.
 The balloon inflates for at least 200 ms however quickly you tap, and rests 200 ms after you
 let go, so it cannot be spammed.
 
+## Building and releasing
+
+Both scripts are for Windows. Double-click either one, or run it with `py`, and it offers a numbered
+menu, then waits for Enter at the end so you can hear how it went.
+
+**`compiler.py`** builds the game with PyInstaller (`pip install pyinstaller`) into
+`dist\VirtualBalloon-Windows`, around `VirtualBalloon.exe`:
+
+    py compiler.py                the folder build: the sounds beside the executable
+    py compiler.py --test         the folder build, then start it silently for a few seconds to check it works
+    py compiler.py --embed        one executable with the sounds inside it
+    py compiler.py --clean        empty PyInstaller's cache first
+    py compiler.py --console      keep a console window, to see why the game will not start
+    py compiler.py --onefile      one executable with the sounds still beside it
+    py compiler.py --no-game      leave the sounds out
+    py compiler.py --dry-run      say what a build would do, build nothing
+
+The game, the NVDA controller client, Prism and the third-party licenses (in `licenses\`) go inside
+the executable. Of `game\`, a build carries only the sounds, the one thing the game reads. Beside the
+executable go `docks\changelog.txt`, `VERSION` and `license.txt`. `--test` starts the finished build
+for 6 seconds with no window, no sound and no speech, and checks that it quits by itself.
+
+**`releaser.py`** makes a release, asking Y or N before each step: it checks that everything is
+committed and pushed and that 5 to 100 changes are waiting under `unrelease:` in the changelog; sets
+`VERSION` to today's date and release number and files the changelog under it; builds and tests with
+`compiler.py`; zips the build into `dist\VirtualBalloon-Win-<version>.zip`; commits and pushes
+`VERSION` and the changelog as "Release <version>"; tags it `V<version>`; and uploads the zip to GitHub
+as the release "Virtual Balloon V<version>", with that version's changelog lines as its notes. The
+upload needs the [GitHub CLI](https://cli.github.com), signed in with `gh auth login`. Nothing it does
+ever moves a tag or replaces a file already on a release.
+
 ---
 
 ## Layout
@@ -94,7 +127,9 @@ game/                    the original app bundle (see below)
 vendor/                  NVDA's controller client, with its license
 aidocks/general/         the notes for AI-assisted work (see CLAUDE.md)
 aidocks/plans/           plans for features and fixes
-docks/                   changelog.txt
+docks/                   changelog.txt, which ships in a docks folder
+compiler.py              builds the game with PyInstaller
+releaser.py              sets the version, files the changelog, builds, zips, tags and uploads a release
 requirements.txt         the two packages it needs
 VERSION                  the release version
 ```
