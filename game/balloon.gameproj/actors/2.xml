@@ -1,0 +1,259 @@
+<actor PGFVersion="0.13" GSCVersion="0.6.2" id="id271326">
+	<aspects>
+		<graphics>
+			<attributes>
+				<boolean id="visible">true</boolean>
+				<enumeration id="blendingMode">0</enumeration>
+				<enumeration id="horizontalWrap">0</enumeration>
+				<enumeration id="verticalWrap">0</enumeration>
+			</attributes>
+		</graphics>
+		<motion>
+			<attributes>
+				<point id="linearVelocity">
+					<real id="x">0</real>
+					<real id="y">0</real>
+				</point>
+				<real id="angularVelocity">0</real>
+				<real id="maxSpeed">0</real>
+				<boolean id="applyMaxSpeed">false</boolean>
+			</attributes>
+		</motion>
+		<physics>
+			<attributes>
+				<real id="density">1</real>
+				<real id="friction">3</real>
+				<real id="restitution">1</real>
+				<boolean id="fixedRotation">false</boolean>
+				<boolean id="movable">true</boolean>
+				<enumeration id="collisionShape">0</enumeration>
+			</attributes>
+		</physics>
+	</aspects>
+	<attributes>
+		<text id="name">Start</text>
+		<real id="time">0</real>
+		<point id="position">
+			<real id="x">0</real>
+			<real id="y">0</real>
+		</point>
+		<size id="size">
+			<real id="width">102</real>
+			<real id="height">102</real>
+		</size>
+		<angle id="rotation">0</angle>
+		<color id="color">
+			<real id="red">1</real>
+			<real id="green">1</real>
+			<real id="blue">1</real>
+			<real id="alpha">1</real>
+		</color>
+		<text id="image">start.png</text>
+		<text id="tags"></text>
+	</attributes>
+	<behaviors>
+		<behavior id="id580735" class="RuleBehavior">
+			<attributes>
+				<text id="name">Start</text>
+				<text id="bundleName">Rule.behavior</text>
+				<real id="compoundConditionKind">0</real>
+			</attributes>
+			<conditions>
+				<condition eventType="touch" id="id191062">
+					<attributes>
+						<text id="name">default name</text>
+						<index id="conditionType">0</index>
+					</attributes>
+					<predicate type="touch" conditionType="pressed">
+						<attributes>
+							<text id="name">default name</text>
+						</attributes>
+					</predicate>
+				</condition>
+			</conditions>
+			<behaviors>
+				<behavior class="TimerBehavior" id="id369823">
+					<attributes>
+						<text id="name">Timer</text>
+						<text id="bundleName">Timer.behavior</text>
+						<index id="timerType">1</index>
+						<real id="interval">39</real>
+						<boolean id="runToCompletion">false</boolean>
+					</attributes>
+					<behaviors>
+						<behavior id="id316416" class="ChangeSceneAction">
+							<attributes>
+								<text id="name">Change Scene</text>
+								<text id="bundleName">ChangeScene.behavior</text>
+								<text id="sceneKey">id726730</text>
+								<boolean id="preserveCurrentScene">false</boolean>
+							</attributes>
+						</behavior>
+						<behavior id="id945769" class="DestroyAction">
+							<attributes>
+								<text id="name">Destroy</text>
+								<text id="bundleName">Destroy.behavior</text>
+							</attributes>
+						</behavior>
+					</behaviors>
+				</behavior>
+				<behavior id="id160675" class="GrowShrinkBehavior">
+					<attributes>
+						<text id="name">Change Size</text>
+						<text id="bundleName">ChangeSize.behavior</text>
+						<real id="growthRate">0.25</real>
+					</attributes>
+				</behavior>
+				<behavior id="id610244" class="PlayMusicAction">
+					<attributes>
+						<text id="name">Play Music</text>
+						<text id="bundleName">PlayMusic.behavior</text>
+						<text id="musicName">balloon up loud.m4a</text>
+						<boolean id="loop">false</boolean>
+					</attributes>
+				</behavior>
+				<behavior id="id555813" class="ChangeImageAction">
+					<attributes>
+						<text id="name">Change Image</text>
+						<text id="bundleName">ChangeImage.behavior</text>
+						<text id="image">pressed.png</text>
+					</attributes>
+				</behavior>
+				<behavior class="TimerBehavior" id="id366875">
+					<attributes>
+						<text id="name">Timer</text>
+						<text id="bundleName">Timer.behavior</text>
+						<index id="timerType">0</index>
+						<real id="interval">1</real>
+						<boolean id="runToCompletion">false</boolean>
+					</attributes>
+					<behaviors>
+						<behavior id="id777812" class="AssignAttributeAction">
+							<attributes>
+								<text id="name">Change Attribute</text>
+								<text id="bundleName">ChangeAttribute.behavior</text>
+								<text id="targetAttribute">game.attributes.id540205</text>
+								<text id="RHS">
+									<expression>
+										<reference keypath="game.attributes.id540205" />
+										<string>+1</string>
+									</expression>
+								</text>
+							</attributes>
+						</behavior>
+					</behaviors>
+				</behavior>
+				<behavior class="TimerBehavior" id="id178481">
+					<attributes>
+						<text id="name">Timer</text>
+						<text id="bundleName">Timer.behavior</text>
+						<index id="timerType">1</index>
+						<real id="interval">16</real>
+						<boolean id="runToCompletion">false</boolean>
+					</attributes>
+					<behaviors>
+						<behavior id="id999041" class="PlaySoundAction">
+							<attributes>
+								<text id="name">Play Sound</text>
+								<text id="bundleName">PlaySound.behavior</text>
+								<text id="soundName">squeak C.ogg</text>
+								<boolean id="loop">false</boolean>
+								<boolean id="runToCompletion">true</boolean>
+								<boolean id="positional">false</boolean>
+								<boolean id="dopplerShift">false</boolean>
+								<real id="volume">1</real>
+								<real id="pitch">1</real>
+							</attributes>
+						</behavior>
+					</behaviors>
+				</behavior>
+				<behavior class="TimerBehavior" id="id632131">
+					<attributes>
+						<text id="name">Timer</text>
+						<text id="bundleName">Timer.behavior</text>
+						<index id="timerType">1</index>
+						<real id="interval">26</real>
+						<boolean id="runToCompletion">false</boolean>
+					</attributes>
+					<behaviors>
+						<behavior id="id999041" class="PlaySoundAction">
+							<attributes>
+								<text id="name">Play Sound</text>
+								<text id="bundleName">PlaySound.behavior</text>
+								<text id="soundName">squeak L.ogg</text>
+								<boolean id="loop">false</boolean>
+								<boolean id="runToCompletion">true</boolean>
+								<boolean id="positional">false</boolean>
+								<boolean id="dopplerShift">false</boolean>
+								<real id="volume">1</real>
+								<real id="pitch">1</real>
+							</attributes>
+						</behavior>
+					</behaviors>
+				</behavior>
+				<behavior class="TimerBehavior" id="id332726">
+					<attributes>
+						<text id="name">Timer</text>
+						<text id="bundleName">Timer.behavior</text>
+						<index id="timerType">1</index>
+						<real id="interval">32</real>
+						<boolean id="runToCompletion">false</boolean>
+					</attributes>
+					<behaviors>
+						<behavior id="id999041" class="PlaySoundAction">
+							<attributes>
+								<text id="name">Play Sound</text>
+								<text id="bundleName">PlaySound.behavior</text>
+								<text id="soundName">squeak R.ogg</text>
+								<boolean id="loop">false</boolean>
+								<boolean id="runToCompletion">true</boolean>
+								<boolean id="positional">false</boolean>
+								<boolean id="dopplerShift">false</boolean>
+								<real id="volume">1</real>
+								<real id="pitch">1</real>
+							</attributes>
+						</behavior>
+					</behaviors>
+				</behavior>
+			</behaviors>
+			<elseBehaviors />
+		</behavior>
+		<behavior id="id212252" class="RuleBehavior">
+			<attributes>
+				<text id="name">Release</text>
+				<text id="bundleName">Rule.behavior</text>
+				<real id="compoundConditionKind">0</real>
+			</attributes>
+			<conditions>
+				<condition eventType="touch" id="id943994">
+					<attributes>
+						<text id="name">default name</text>
+						<index id="conditionType">0</index>
+					</attributes>
+					<predicate type="touch" conditionType="released">
+						<attributes>
+							<text id="name">default name</text>
+						</attributes>
+					</predicate>
+				</condition>
+			</conditions>
+			<behaviors>
+				<behavior id="id584040" class="PauseMusicAction">
+					<attributes>
+						<text id="name">Pause Music</text>
+						<text id="bundleName">PauseMusic.behavior</text>
+					</attributes>
+				</behavior>
+				<behavior id="id460667" class="ChangeSceneAction">
+					<attributes>
+						<text id="name">Change Scene</text>
+						<text id="bundleName">ChangeScene.behavior</text>
+						<text id="sceneKey">id304027</text>
+						<boolean id="preserveCurrentScene">false</boolean>
+					</attributes>
+				</behavior>
+			</behaviors>
+			<elseBehaviors />
+		</behavior>
+	</behaviors>
+</actor>

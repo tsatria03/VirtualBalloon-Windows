@@ -1,0 +1,24 @@
+<assets>
+	<actors />
+	<images>
+		<file name="obintro.png" />
+		<file name="start.png" />
+		<file name="balloonbg.png" />
+		<file name="endfail.png" />
+		<file name="trya.png" />
+		<file name="wdone.png" />
+		<file name="mainbg.png" />
+		<file name="balloongrow.png" />
+		<file name="pressed.png" />
+	</images>
+	<behaviors />
+	<sounds>
+		<file name="on beat credit 1.m4a" />
+		<file name="balloon down.ogg" />
+		<file name="balloon up loud.m4a" />
+		<file name="crowd cheer.ogg" />
+		<file name="squeak C.ogg" />
+		<file name="squeak L.ogg" />
+		<file name="squeak R.ogg" />
+	</sounds>
+</assets>

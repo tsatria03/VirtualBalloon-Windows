@@ -1,0 +1,31 @@
+<game PGFVersion="0.13" GSCVersion="0.6.2" title="My Great Project">
+	<instructions>Add game instructions here.</instructions>
+	<scenes>
+		<scene id="id269551" />
+		<scene id="id644581" />
+		<scene id="id179401" />
+		<scene id="id304027" />
+		<scene id="id726730" />
+	</scenes>
+	<prototypes>
+		<actor id="id935517" />
+		<actor id="id271326" />
+		<actor id="id625870" />
+		<actor id="id620640" />
+		<actor id="id848462" />
+		<actor id="id949008" />
+		<actor id="id287486" />
+		<actor id="id696318" />
+	</prototypes>
+	<longDescription>Describe your project here.</longDescription>
+	<behaviors />
+	<attributes>
+		<text id="name">default name</text>
+		<real id="time">0</real>
+		<size id="displaySize">
+			<real id="width">480</real>
+			<real id="height">320</real>
+		</size>
+		<integer id="id540205" name="Timer">0</integer>
+	</attributes>
+</game>
