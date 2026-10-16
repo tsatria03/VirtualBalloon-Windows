@@ -118,6 +118,7 @@ class Game:
         """Back to the start after a win: the next press starts a new round."""
         self.state = "ready"
         self.round = None
+        self.sounds["crowd_cheer"].stop()  # the cheer runs to about 48.7 s, past the 43 s restart
         self.start_music()  # it comes back here after a win
         self.say("Ready. Hold Space to blow up the balloon.")
 
