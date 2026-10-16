@@ -4,7 +4,13 @@ This file points Claude to the project's memories. The memories themselves live 
 
 ## About the project
 
-Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Python with pygame (`VirtualBalloon.py`), with sounds in `sounds/`, the change list in `docks/changes.txt`, a `README.md` and an MIT `LICENSE`. Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file. **Status: complete** since 2026-10-16 (the user: "it's good as complete"); change it only when the user asks.
+Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Python with pygame and Prism (`requirements.txt`). Layout, modelled on the user's Sixth Sense Reborn port (since 2026-10-16):
+- `VirtualBalloon.py`: the entry point only.
+- `virtualballoon/`: the package. `game.py` (the `Game` class: sounds, keys, announcements), `round.py` (the rules and timings), `audio.py` (decibels and fades), `speech.py` (NVDA's own client, then Prism), `settings.py` (the registry), `paths.py` (where `game/` and `vendor/` are, also inside a PyInstaller build).
+- `game/`: the original app bundle's contents; the sounds are in `game/balloon.gameproj/sounds/`. `game/SC_Info/` (the App Store license from the user's download) is in `.gitignore`.
+- `vendor/nvda/`: the NVDA controller client DLL and its license.
+- `docks/changelog.txt`: the change list; `README.md`, an MIT `LICENSE`.
+- `user/` (ignored): the user's other projects for reference, such as the Sixth Sense port. Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file. **Status: complete** since 2026-10-16 (the user: "it's good as complete"); change it only when the user asks.
 
 ## Where memories live
 
@@ -32,12 +38,12 @@ Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Pytho
   For rules and decisions, add **Why:** and **How to apply:** lines. Link related memories with `[[their-name]]`.
 - After adding a memory, add one line for it to `aidocks/general/MEMORY.md`: `- [Title](file.md) — short hook`. Plans are linked as `../plans/file.md`, private files as `../private/file.md`.
 - Before adding a memory, check whether an existing file already covers it, and update that file instead. Fix or remove memories that turn out to be wrong.
-- Don't store what the project already records (the code, `docks/changes.txt`), and never store passwords.
+- Don't store what the project already records (the code, `docks/changelog.txt`), and never store passwords.
 
 ## Most important rules (details in the files)
 
 - The user uses the NVDA screen reader (`screen-reader-user.md`).
 - Ask one question per reply, as plain text, never with a picker (`no-pickers.md`).
 - Test the game headless and in the background; never start the game itself (`game-tests-background.md`).
-- Every change goes at the top of `docks/changes.txt`, in the user's style (`changes-file-style.md`).
+- Every change goes at the top of `docks/changelog.txt`, in the user's style (`changes-file-style.md`).
 - Commit and push changes myself, straight to `main`, in small commits, and **never add a co-author line** (`commit-rules.md`).
