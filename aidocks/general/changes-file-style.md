@@ -14,4 +14,6 @@ Every change to the game gets a line in `docks/changelog.txt` (moved into `docks
 **Why:** the user rewrote my first changes.txt (a "Version 1.0" heading and plain feature lines) into this style on 2026-10-16.
 **Small follow-up tweaks** to something already listed (a changed number, a reworded message) edit the existing line instead of adding a new one (user, 2026-10-16: "For the change log, you can just modify one of the lines that exist").
 
+**No secret timings:** the changelog ships with every release, so a line never says when the squeaks come or how long to hold on to win (user, 2026-10-16: "Fix the change log too"); write "moved the win to match" rather than a number.
+
 **How to apply:** add new lines at the top under the `unrelease:` heading (one blank line after it). Check the grammar of each line (both verbs after "Made the music ..." take the same form).
