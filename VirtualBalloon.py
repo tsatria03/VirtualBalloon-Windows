@@ -134,6 +134,7 @@ class Game:
         self.round = Round(time.monotonic())
         self.balloon.play(self.sounds["balloon_inflate"])
         self.state = "playing"
+        self.say("Inflating...")
 
     def run(self):
         clock = pygame.time.Clock()
