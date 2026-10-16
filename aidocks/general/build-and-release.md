@@ -12,5 +12,7 @@ Since 2026-10-16 the game has `compiler.py` and `releaser.py`, adapted from anot
 - **releaser.py**: check (committed, pushed, `gh` signed in, 5 to 100 lines under `unrelease:`, or Y to release anyway with fewer) -> prepare (VERSION = `YY.MM.DD-N` counted from `V` tags; changelog lines filed under `YY.MM.DD-N:`) -> build with `--test` (a failed build restores VERSION and the changelog) -> zip `dist/VirtualBalloon-Win-<version>.zip` (one `VirtualBalloon-Windows` folder inside) -> commit "Release <version>" and push -> tag `V<version>` -> `gh release create` titled "Virtual Balloon V<version>". Every step asks Y/N; nothing ever moves a tag or replaces a release file.
 - `paths.py` finds `game/` beside the exe (folder build) or inside it (`--embed`); `VirtualBalloon.py` takes `--exit-after SECONDS` and, if the game crashes, says why aloud (a windowed build has no console).
 
+**Releases use the single exe** (`--embed`), on purpose: the user chose it for V26.10.16-2 ("I chose the exe build on perpis"), so `balloon.gameproj` is packed inside the exe rather than browsable beside it. Don't suggest the folder build for releases.
+
 **Why:** the user asked for these to release the game ([[version-file]]: the releaser is what sets VERSION).
 **How to apply:** never run a release (releaser.py) unless the user asks; it commits, tags and publishes. When testing a build myself, run compiler.py on the hidden desktop with the watchdog watching `VirtualBalloon` ([[game-tests-background]]). `build/`, `dist/` and `*.spec` are ignored.
