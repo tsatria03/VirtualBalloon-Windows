@@ -12,7 +12,7 @@ from .speech import Speech
 
 #: What the H key says.
 HELP = ("Hold Space to blow up the balloon, and don't let go. Let go too soon and it deflates; "
-        "hold on for about 39 seconds and it pops. A turns announcements off or on. "
+        "hold on long enough and it pops. A turns announcements off or on. "
         "H repeats this help. Escape quits.")
 
 
