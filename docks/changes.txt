@@ -1,6 +1,6 @@
 26.10.16
 Pressing Space to play again now takes you back to Ready, so the balloon only starts inflating on your next press.
-The music now fades down to -30 dB instead of -20 dB while you blow up the balloon.
+The music now fades down to -25 dB instead of -20 dB while you blow up the balloon.
 The music now fades down to -20 dB while you blow up the balloon, and back to -10 dB when you let go.
 The inflating and deflating sounds no longer overlap when you press and release Space quickly.
 The music now keeps playing while you hold and release Space, and stops when you win at 39 seconds.

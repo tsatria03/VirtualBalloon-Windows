@@ -25,7 +25,7 @@ def db_to_volume(db):
 
 
 MUSIC_DB = -10         # the music's normal volume
-MUSIC_DUCKED_DB = -30  # while you blow up the balloon
+MUSIC_DUCKED_DB = -25  # while you blow up the balloon
 DUCK_SPEED = 40        # dB per second, so a 10 dB change takes a quarter of a second
 
 
