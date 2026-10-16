@@ -4,5 +4,5 @@
 - [changes.txt style](changes-file-style.md) — docks/changes.txt: YY.MM.DD date headings, newest first, one sentence per line ("You can now…", "Made…")
 - [Commit rules](commit-rules.md) — I commit and push myself, straight to main, small commits, NEVER a co-author line
 - [VERSION file](version-file.md) — read by the user's releaser script; its date may differ from changes.txt on purpose; don't edit it
-- [Game workings](game-workings.md) — the original's timings (squeaks 16/26/32, win 39, pop ~39.3, cheer 40, restart 43) and how VirtualBalloon.py copies them, incl. the music (0 dB, fades out over the inflating sound, back in over the deflating one)
+- [Game workings](game-workings.md) — the original's timings (squeaks 16/26/32, win 39, pop ~39.3, cheer 40, restart 43) and how VirtualBalloon.py copies them, incl. the music (-10 dB, fades out over the inflating sound, back in over the deflating one)
 - [Original app (private)](../private/original-app.md) — where the original came from: App ID, the user's download, sound conversion
