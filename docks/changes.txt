@@ -1,7 +1,7 @@
 26.10.16
 Fixed the balloon sounds sometimes getting quieter when you pressed and released Space quickly.
 The deflating sound now only plays for as long as you held Space, and the music comes back in that same time.
-Holding and releasing Space now has a 100 ms cooldown, so you can no longer spam the balloon.
+Holding and releasing Space now has a 200 ms cooldown, so you can no longer spam the balloon.
 Removed the silence at the start of the inflating sound, and moved the win to 38.75 seconds to match.
 The crowd cheer now stops when you press Space to play again.
 The game now says "Inflating..." when you start holding Space.

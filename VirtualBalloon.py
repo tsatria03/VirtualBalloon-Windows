@@ -18,7 +18,7 @@ WIN_AT = 38.75       # the win screen appears; the inflating sound plays on to t
                      # (39 in the original; 0.25 s earlier since the sound's silent start was trimmed)
 CHEER_AFTER_WIN = 1  # the crowd cheers 1 second into the win screen
 RESTART_AFTER_WIN = 4  # keys are ignored this long, so the pop and cheer can finish
-COOLDOWN = 0.1       # the balloon inflates at least this long, and rests this long after you let go
+COOLDOWN = 0.2       # the balloon inflates at least this long, and rests this long after you let go
 DEFLATE_CUT_FADE_MS = 30  # the deflating sound fades out this quickly when it's cut short
 
 
