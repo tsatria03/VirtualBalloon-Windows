@@ -6,18 +6,40 @@ A remake of On Beat Limited's 2009 iPhone game, with the same timings.
 
 import os
 import time
+import winreg
 
 import pygame
 from accessible_output2.outputs.auto import Auto
 
 SOUNDS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sounds")
 
+# Settings are kept in the Windows registry, under the current user (no admin rights needed).
+SETTINGS_KEY = r"Software\tsatria03\VirtualBalloon"
+
+
+def load_setting(name, default):
+    """Reads a number saved with save_setting, or returns default if there isn't one."""
+    try:
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, SETTINGS_KEY) as key:
+            value, kind = winreg.QueryValueEx(key, name)
+            return value if kind == winreg.REG_DWORD else default
+    except OSError:
+        return default
+
+
+def save_setting(name, value):
+    """Saves a number in the registry; a failure only means it isn't remembered."""
+    try:
+        with winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER, SETTINGS_KEY, 0, winreg.KEY_SET_VALUE) as key:
+            winreg.SetValueEx(key, name, 0, winreg.REG_DWORD, int(value))
+    except OSError:
+        pass
+
 # Timings from the original game, in seconds after the key goes down.
 SQUEAKS = [(16, "squeak_center"), (26, "squeak_left"), (32, "squeak_right")]
 WIN_AT = 38.75       # the win screen appears; the inflating sound plays on to the pop
                      # (39 in the original; 0.25 s earlier since the sound's silent start was trimmed)
-CHEER_AFTER_WIN = 1  # the crowd cheers 1 second into the win screen
-RESTART_AFTER_WIN = 4  # keys are ignored this long, so the pop and cheer can finish
+CHEER_AFTER_WIN = 1  # the crowd cheers 1 second into the win screen; Space works again from then on
 COOLDOWN = 0.2       # the balloon inflates at least this long, and rests this long after you let go
 DEFLATE_CUT_FADE_MS = 30  # the deflating sound fades out this quickly when it's cut short
 
@@ -68,7 +90,8 @@ class Round:
         return int(now - self.start)
 
     def can_restart(self, now):
-        return self.won_at is not None and now - self.won_at >= RESTART_AFTER_WIN
+        """After a win, Space works again once the cheer has started (the pop is over by then)."""
+        return self.cheered
 
 
 class Game:
@@ -78,7 +101,7 @@ class Game:
         pygame.display.set_mode((400, 300))
         pygame.display.set_caption("Virtual Balloon")
         self.speech = Auto()
-        self.announcements = True  # the A key turns them off and on
+        self.announcements = bool(load_setting("Announcements", 1))  # the A key turns them off and on
         self.sounds = {
             name[:-4]: pygame.mixer.Sound(os.path.join(SOUNDS, name))
             for name in os.listdir(SOUNDS) if name.endswith(".ogg")
@@ -105,6 +128,7 @@ class Game:
     def toggle_announcements(self):
         """The A key: turns the game's announcements off or on. The answer is always spoken."""
         self.announcements = not self.announcements
+        save_setting("Announcements", self.announcements)
         self.speech.output("Announcements on" if self.announcements else "Announcements off", interrupt=True)
 
     def play(self, name):
@@ -146,7 +170,7 @@ class Game:
         """Back to the start after a win: the next press starts a new round."""
         self.state = "ready"
         self.round = None
-        self.sounds["crowd_cheer"].stop()  # the cheer runs to about 48.7 s, past the 43 s restart
+        self.sounds["crowd_cheer"].stop()  # Space can skip the cheer as soon as it starts
         self.start_music()  # it comes back here after a win
         self.say("Ready. Hold Space to blow up the balloon.")
 

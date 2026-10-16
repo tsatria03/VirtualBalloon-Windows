@@ -1,11 +1,11 @@
 26.10.16
-You can now press A to turn the game's announcements off or on.
+You can now press A to turn the game's announcements off or on, and the game remembers your choice.
 Removed most of the silence at the start of the left squeak sound.
 Fixed the balloon sounds sometimes getting quieter when you pressed and released Space quickly.
 The deflating sound now only plays for as long as you held Space, and the music comes back in that same time.
 Holding and releasing Space now has a 200 ms cooldown, so you can no longer spam the balloon.
 Removed the silence at the start of the inflating sound, and moved the win to 38.75 seconds to match.
-The crowd cheer now stops when you press Space to play again.
+The crowd cheer now stops when you press Space to play again, which you can do as soon as the cheer starts.
 The game now says "Inflating..." when you start holding Space.
 Pressing Space to play again after a win now takes you back to Ready, so the balloon only starts inflating on your next press.
 The music now slowly fades out to -100 dB while you blow up the balloon, so it's gone by the time the balloon pops, and fades back in while the balloon deflates.
