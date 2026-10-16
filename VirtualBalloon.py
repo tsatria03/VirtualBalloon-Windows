@@ -18,6 +18,7 @@ WIN_AT = 38.75       # the win screen appears; the inflating sound plays on to t
                      # (39 in the original; 0.25 s earlier since the sound's silent start was trimmed)
 CHEER_AFTER_WIN = 1  # the crowd cheers 1 second into the win screen
 RESTART_AFTER_WIN = 4  # keys are ignored this long, so the pop and cheer can finish
+COOLDOWN = 0.5       # the balloon inflates at least this long, and rests this long after you let go
 
 
 def db_to_volume(db):
@@ -50,7 +51,7 @@ class Round:
         events = []
         held = now - self.start
         if self.won_at is None:
-            if not holding:
+            if not holding and held >= COOLDOWN:  # a quick tap still inflates for COOLDOWN
                 return ["lost"]
             while self.squeaks and held >= self.squeaks[0][0]:
                 events.append(self.squeaks.pop(0)[1])
@@ -83,6 +84,7 @@ class Game:
         self.music_db = MUSIC_DB
         self.fade_start_db = MUSIC_DB  # where the music was when its current fade began
         self.fade_start = 0.0          # when the fade back in began (after letting go)
+        self.lost_at = 0.0             # when you last let go too soon, for the cooldown
         self.sounds["music"].set_volume(db_to_volume(MUSIC_DB))
         # Two channels of their own: the music, and the balloon. Playing a sound on a
         # channel replaces what it was playing, so inflating and deflating never overlap.
@@ -133,10 +135,18 @@ class Game:
 
     def press_space(self, now):
         """A new press of Space (holding the key doesn't repeat it)."""
-        if self.state in ("title", "ready", "lost"):
-            self.start_round()  # after letting go too soon, the next press tries again at once
+        if self.state in ("title", "ready"):
+            self.start_round()
+        elif self.state == "lost":
+            self.try_again(now, True)
         elif self.state == "won" and self.round.can_restart(now):
             self.ready()
+
+    def try_again(self, now, holding):
+        """After letting go too soon, holding Space tries again once the cooldown is over,
+        whether you pressed during the cooldown or after it."""
+        if holding and now - self.lost_at >= COOLDOWN:
+            self.start_round()
 
     def start_round(self):
         self.start_music()
@@ -164,8 +174,11 @@ class Game:
                         self.press_space(now)
             if self.state == "logo" and now >= logo_ends:
                 self.title()
+            holding = pygame.key.get_pressed()[pygame.K_SPACE]
             if self.state in ("playing", "won"):
-                self.step(now, pygame.key.get_pressed()[pygame.K_SPACE])
+                self.step(now, holding)
+            elif self.state == "lost":
+                self.try_again(now, holding)
             self.fade_music(time.monotonic(), clock.tick(60) / 1000)
 
     def step(self, now, holding):
@@ -173,6 +186,7 @@ class Game:
             if event == "lost":
                 self.balloon.play(self.sounds["balloon_deflate"])  # replaces the inflating sound
                 self.fade_start_db, self.fade_start = self.music_db, now  # fade back in from here
+                self.lost_at = now
                 held = self.round.seconds_held(now)
                 self.say(f"You let go after {held} second{'s' if held != 1 else ''}. Hold Space to try again.")
                 self.state = "lost"
