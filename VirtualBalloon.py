@@ -78,6 +78,7 @@ class Game:
         pygame.display.set_mode((400, 300))
         pygame.display.set_caption("Virtual Balloon")
         self.speech = Auto()
+        self.announcements = True  # the A key turns them off and on
         self.sounds = {
             name[:-4]: pygame.mixer.Sound(os.path.join(SOUNDS, name))
             for name in os.listdir(SOUNDS) if name.endswith(".ogg")
@@ -98,7 +99,13 @@ class Game:
         self.state = "title"
 
     def say(self, text):
-        self.speech.output(text, interrupt=True)
+        if self.announcements:
+            self.speech.output(text, interrupt=True)
+
+    def toggle_announcements(self):
+        """The A key: turns the game's announcements off or on. The answer is always spoken."""
+        self.announcements = not self.announcements
+        self.speech.output("Announcements on" if self.announcements else "Announcements off", interrupt=True)
 
     def play(self, name):
         return self.sounds[name].play()
@@ -132,7 +139,8 @@ class Game:
         self.state = "title"
         self.round = None
         self.start_music()
-        self.say("Virtual Balloon. Hold Space to blow up the balloon, and don't let go. Escape quits.")
+        self.say("Virtual Balloon. Hold Space to blow up the balloon, and don't let go. "
+                 "A turns announcements off or on. Escape quits.")
 
     def ready(self):
         """Back to the start after a win: the next press starts a new round."""
@@ -187,6 +195,8 @@ class Game:
                         return
                     if event.key == pygame.K_SPACE:
                         self.press_space(now)
+                    elif event.key == pygame.K_a:
+                        self.toggle_announcements()
             if self.state == "logo" and now >= logo_ends:
                 self.title()
             holding = pygame.key.get_pressed()[pygame.K_SPACE]
