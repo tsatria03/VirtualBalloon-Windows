@@ -1,4 +1,6 @@
 unrelease:
+You can now press H to hear a quick help, even with the announcements off.
+The game now comes with a readme in the docks folder, which explains how to play.
 
 26.10.16-1:
 The game can now be built into a Windows program and released, with the original game's scenes, actors, images and sounds beside it, and says aloud why if it ever stops because of an error.

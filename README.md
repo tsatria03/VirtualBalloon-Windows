@@ -59,6 +59,7 @@ never writes anywhere else.
 | | |
 |---|---|
 | **Space** | hold to blow up the balloon; press to try again, or to play again after a win |
+| **H** | say a quick help: the keys and how to play. Always spoken, even with the announcements off. Does nothing while the logo plays |
 | **A** | turn the announcements off or on; the game always says which. Does nothing while the logo plays |
 | **Esc** | quit |
 
@@ -100,7 +101,7 @@ The game, the NVDA controller client, Prism and the third-party licenses (in `li
 the executable. Of `game\`, a build carries the whole GameSalad project, `balloon.gameproj` - its
 scenes, actors, images and sounds, so you can look inside it - though the game reads only the
 sounds; never the iOS binary or the App Store license. Beside the
-executable go `docks\changelog.txt`, `VERSION` and `license.txt`. `--test` starts the finished build
+executable go `docks\readme.txt`, `docks\changelog.txt`, `VERSION` and `license.txt`. `--test` starts the finished build
 for 6 seconds with no window, no sound and no speech, and checks that it quits by itself.
 
 **`releaser.py`** makes a release, asking Y or N before each step: it checks that everything is
@@ -131,7 +132,7 @@ aidocks/general/         the notes for AI-assisted work (see CLAUDE.md)
 aidocks/plans/           plans for features and fixes
 aidocks/private/         personal notes, kept on the dev's computer only: listed in .gitignore,
                          so they are never in the repository or a release
-docks/                   changelog.txt, which ships in a docks folder
+docks/                   readme.txt (the player's readme, plain text) and changelog.txt, which ship in a docks folder
 compiler.py              builds the game with PyInstaller
 releaser.py              sets the version, files the changelog, builds, zips, tags and uploads a release
 requirements.txt         the two packages it needs
