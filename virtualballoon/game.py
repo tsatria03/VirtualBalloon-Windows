@@ -123,14 +123,18 @@ class Game:
         self.state = "playing"
         self.say("Inflating...")
 
-    def run(self):
+    def run(self, exit_after=None):
+        """The game loop. ``exit_after`` (seconds) quits by itself, for compiler.py's build test."""
         clock = pygame.time.Clock()
         self.play("logo")
         self.say("On Beat presents")
-        logo_ends = time.monotonic() + self.sounds["logo"].get_length()
+        started = time.monotonic()
+        logo_ends = started + self.sounds["logo"].get_length()
         self.state = "logo"
         while True:
             now = time.monotonic()
+            if exit_after is not None and now - started >= exit_after:
+                return
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
