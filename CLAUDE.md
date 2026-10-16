@@ -10,6 +10,7 @@ Virtual Balloon is the user's own remake of a 2009 iPhone game, written in Pytho
 - `game/`: the original app bundle's contents; the sounds are in `game/balloon.gameproj/sounds/`. `game/SC_Info/` (the App Store license from the user's download) is in `.gitignore`.
 - `vendor/nvda/`: the NVDA controller client DLL and its license.
 - `docks/changelog.txt`: the change list; `README.md`, an MIT `LICENSE`.
+- `compiler.py` (PyInstaller build into `dist/VirtualBalloon-Windows`) and `releaser.py` (version, changelog, build, zip, commit, tag, GitHub upload), both Windows-only, adapted from Sixth Sense Reborn's; no GitHub workflows (`build-and-release.md`).
 - `user/` (ignored): the user's other projects for reference, such as the Sixth Sense port. Since 2026-10-16 it's a **private** GitHub repository, `tsatria03/VirtualBalloon-Windows` (branch `main`), and the version number is in the `VERSION` file. **Status: complete** since 2026-10-16 (the user: "it's good as complete"); change it only when the user asks.
 
 ## Where memories live

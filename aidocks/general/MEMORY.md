@@ -3,6 +3,7 @@
 - [Game tests in the background](game-tests-background.md) — test headless (dummy SDL drivers, speech off) as a background command; never start the game
 - [Changelog style](changes-file-style.md) — docks/changelog.txt: new lines under "unrelease:"; earlier YY.MM.DD date headings, newest first, one sentence per line ("You can now…", "Made…")
 - [Commit rules](commit-rules.md) — I commit and push myself, straight to main, small commits, NEVER a co-author line
+- [Build and release](build-and-release.md) — compiler.py / releaser.py, Windows only, no workflows; --test runs the build silently; never release unless asked
 - [VERSION file](version-file.md) — read by the user's releaser script; its date may differ from changes.txt on purpose; don't edit it
 - [Game workings](game-workings.md) — the original's timings (squeaks 16/26/32, win 39, pop ~39.3, cheer 40, restart 43; the remake wins at 38.75 and lets Space skip the cheer), the A key and its registry setting and how VirtualBalloon.py copies them, incl. the music (-10 dB, fades out over the inflating sound, back in over the deflating one)
 - [Original app (private)](../private/original-app.md) — where the original came from: App ID, the user's download, sound conversion
