@@ -14,7 +14,7 @@ How to play
 
 Hold Space, and the balloon starts to fill with air, while the music slowly fades away.
 The game says "Inflating...".
-At 16, 26 and 32 seconds the balloon squeaks, from the center, the left and the right, as if it were about to burst.
+Now and then the balloon squeaks, from the center, the left or the right, as if it were about to burst.
 It is only a bluff, so keep holding.
 If you let go too soon, the air goes out of the balloon for as long as you held on, and the music comes back.
 The game tells you how many seconds you held on, and you can hold Space again to try again.
