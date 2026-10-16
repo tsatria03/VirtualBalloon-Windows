@@ -163,7 +163,7 @@ class Game:
                 self.balloon.play(self.sounds["balloon_deflate"])  # replaces the inflating sound
                 self.music_target_db = MUSIC_DB
                 held = self.round.seconds_held(now)
-                self.say(f"You let go after {held} second{'s' if held != 1 else ''}. Press Space to try again.")
+                self.say(f"You let go after {held} second{'s' if held != 1 else ''}. Hold Space to try again.")
                 self.state = "lost"
             elif event == "won":
                 self.state = "won"  # the inflating sound keeps playing, so the balloon pops
