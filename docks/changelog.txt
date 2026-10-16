@@ -1,4 +1,6 @@
 unrelease:
+
+26.10.16-2:
 You can now press H to hear a quick help, even with the announcements off.
 The game now comes with a readme in the docks folder, which explains how to play.
 
