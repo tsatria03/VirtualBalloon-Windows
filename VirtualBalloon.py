@@ -114,8 +114,22 @@ class Game:
         self.start_music()
         self.say("Virtual Balloon. Hold Space to blow up the balloon, and don't let go. Escape quits.")
 
+    def ready(self):
+        """Back to the start after a try, like the original's Try Again: the next press starts."""
+        self.state = "ready"
+        self.round = None
+        self.start_music()  # it comes back here after a win
+        self.say("Ready. Hold Space to blow up the balloon.")
+
+    def press_space(self, now):
+        """A new press of Space (holding the key doesn't repeat it)."""
+        if self.state in ("title", "ready"):
+            self.start_round()
+        elif self.state == "lost" or (self.state == "won" and self.round.can_restart(now)):
+            self.ready()
+
     def start_round(self):
-        self.start_music()  # it keeps playing between tries, and comes back after a win
+        self.start_music()
         self.music_target_db = MUSIC_DUCKED_DB
         self.round = Round(time.monotonic())
         self.balloon.play(self.sounds["balloon_inflate"])
@@ -135,10 +149,8 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         return
-                    if event.key == pygame.K_SPACE and self.state in ("title", "lost"):
-                        self.start_round()
-                    elif event.key == pygame.K_SPACE and self.state == "won" and self.round.can_restart(now):
-                        self.start_round()
+                    if event.key == pygame.K_SPACE:
+                        self.press_space(now)
             if self.state == "logo" and now >= logo_ends:
                 self.title()
             if self.state in ("playing", "won"):
