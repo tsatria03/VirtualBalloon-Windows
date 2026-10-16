@@ -115,7 +115,7 @@ class Game:
         self.say("Virtual Balloon. Hold Space to blow up the balloon, and don't let go. Escape quits.")
 
     def ready(self):
-        """Back to the start after a try, like the original's Try Again: the next press starts."""
+        """Back to the start after a win: the next press starts a new round."""
         self.state = "ready"
         self.round = None
         self.start_music()  # it comes back here after a win
@@ -123,9 +123,9 @@ class Game:
 
     def press_space(self, now):
         """A new press of Space (holding the key doesn't repeat it)."""
-        if self.state in ("title", "ready"):
-            self.start_round()
-        elif self.state == "lost" or (self.state == "won" and self.round.can_restart(now)):
+        if self.state in ("title", "ready", "lost"):
+            self.start_round()  # after letting go too soon, the next press tries again at once
+        elif self.state == "won" and self.round.can_restart(now):
             self.ready()
 
     def start_round(self):
