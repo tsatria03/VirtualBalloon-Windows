@@ -129,6 +129,8 @@ game/                    the original app bundle (see below)
 vendor/                  NVDA's controller client, with its license
 aidocks/general/         the notes for AI-assisted work (see CLAUDE.md)
 aidocks/plans/           plans for features and fixes
+aidocks/private/         personal notes, kept on the dev's computer only: listed in .gitignore,
+                         so they are never in the repository or a release
 docks/                   changelog.txt, which ships in a docks folder
 compiler.py              builds the game with PyInstaller
 releaser.py              sets the version, files the changelog, builds, zips, tags and uploads a release
@@ -173,7 +175,6 @@ screen.
   the original's files, converted and trimmed its sounds, and designed the remake: the
   music fading with the balloon, the deflate that lasts as long as you held on, the
   cooldown, the announcements and their key.
-- The speech module comes from **Sixth Sense Reborn**, adapted for this game.
 
 Virtual Balloon itself is On Beat Limited's game, from 2009.
 
