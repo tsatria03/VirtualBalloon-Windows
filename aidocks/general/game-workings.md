@@ -12,6 +12,7 @@ The original (2009, made with GameSalad, an iPhone-only game) keeps its rules in
 - Hold to 39 s: the win screen appears; nothing stops the inflating sound, so **the balloon pops at about 39.1-39.5 s** (the pop is inside the inflating sound's last moments, not a separate file or rule). The crowd cheers 1 s into the win screen (40 s); a new round is accepted only 4 s after the win (43 s).
 - The user confirmed the pop by ear at about 38-39 s (2026-10-16). Earlier I wrongly said the balloon never pops: I had read only the rules, not listened to the sound - the audio files are part of the behaviour.
 - `music.ogg` is the original's unused `piano.ogg`; in the remake it's the title music.
+- **The remake's win is at 38.75 s, not 39** (2026-10-16): the user trimmed 0.25 s of silence from the start of `balloon_inflate.ogg` (39.82 -> 39.57 s), which moved the pop to about 38.8-39.3 s, so `WIN_AT` moved 0.25 s earlier to keep the pop just after the win. Cheer at 39.75 s, restart from 42.75 s. If the sound's start is edited again, move `WIN_AT` by the same amount (or tie the win to the sound's end - option 2, not chosen). Pop found by bytes per tenth of a second (scratchpad `ogg-burst.py`), confirmed earlier by the user's ear.
 
 How VirtualBalloon.py copies it (pygame + accessible_output2):
 - `Round` holds the rules and takes the time as a number (testable); `Game` plays sounds and speaks.
