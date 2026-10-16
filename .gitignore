@@ -1,4 +1,28 @@
+#private user data
+user/
 aidocks/private/
-__pycache__/
+# the App Store license from the user's own download (it carries their Apple account's ID)
+game/SC_Info/
+
+#private scratchpad
+New File*.txt
+
+# What PyInstaller leaves behind
 build/
 dist/
+*.spec
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Tools and editors
+.claude/
+.venv/
+venv/
+.vscode/
+.idea/
+
+# Logs and crash reports, wherever they are run from
+*.log
+crash.txt
