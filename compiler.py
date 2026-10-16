@@ -81,7 +81,11 @@ NEVER_SHIP = ('*.sinf', '*.supp', 'SC_Info')
 #: but means Windows asks what to open it with, so it ships as a .txt.
 DOCKS = 'docks'
 CHANGELOG = os.path.join(DOCKS, 'changelog.txt')
-SIDE_FILES = ((CHANGELOG, CHANGELOG),
+#: The player's readme is plain text of its own, not README.md, which is for developers and would be read
+#: aloud with every # and | in it.
+README = os.path.join(DOCKS, 'readme.txt')
+SIDE_FILES = ((README, README),
+              (CHANGELOG, CHANGELOG),
               ('VERSION', 'VERSION'),
               ('LICENSE', 'license.txt'))
 
