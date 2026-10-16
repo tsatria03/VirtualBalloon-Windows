@@ -14,7 +14,8 @@ SOUNDS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sounds")
 
 # Timings from the original game, in seconds after the key goes down.
 SQUEAKS = [(16, "squeak_center"), (26, "squeak_left"), (32, "squeak_right")]
-WIN_AT = 39          # the win screen appears; the inflating sound plays on to the pop
+WIN_AT = 38.75       # the win screen appears; the inflating sound plays on to the pop
+                     # (39 in the original; 0.25 s earlier since the sound's silent start was trimmed)
 CHEER_AFTER_WIN = 1  # the crowd cheers 1 second into the win screen
 RESTART_AFTER_WIN = 4  # keys are ignored this long, so the pop and cheer can finish
 
