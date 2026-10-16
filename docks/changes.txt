@@ -2,7 +2,7 @@
 The crowd cheer now stops when you press Space to play again.
 The game now says "Inflating..." when you start holding Space.
 Pressing Space to play again after a win now takes you back to Ready, so the balloon only starts inflating on your next press.
-The music now fades down to -25 dB instead of -20 dB while you blow up the balloon.
+The music now slowly fades out to -100 dB while you blow up the balloon, so it's gone by the time the balloon pops, instead of ducking to -20 dB.
 The music now fades down to -20 dB while you blow up the balloon, and back to -10 dB when you let go.
 The inflating and deflating sounds no longer overlap when you press and release Space quickly.
 The music now keeps playing while you hold and release Space, and stops when you win at 39 seconds.
