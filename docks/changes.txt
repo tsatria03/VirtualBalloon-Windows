@@ -1,4 +1,5 @@
 26.10.16
+The music now plays at full volume (0 dB) instead of -10 dB, and fades back up to full volume after you let go.
 The crowd cheer now stops when you press Space to play again.
 The game now says "Inflating..." when you start holding Space.
 Pressing Space to play again after a win now takes you back to Ready, so the balloon only starts inflating on your next press.
