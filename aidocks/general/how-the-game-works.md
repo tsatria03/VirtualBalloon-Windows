@@ -19,6 +19,7 @@ How VirtualBalloon.py copies it (pygame + accessible_output2):
 - Music: loops from the title on, keeps playing between tries, fades to -30 dB while inflating (was -20 until the user changed it, 2026-10-16) and back to -10 dB on release (40 dB per second), stops at the win, comes back at the next round.
 - Volumes are written in decibels, converted with 10^(dB/20) (the same formula the user's usual game engine uses for its `volume` property).
 - Keys: hold Space to inflate, Escape quits.
+- Playing again (since 2026-10-16, user: pressing Space to play again "shouldn't imideatly make you blow up the balloon"): after a loss, or 4 s after a win, a Space press goes to the "ready" state ("Ready. Hold Space to blow up the balloon.", music back on); only the next press starts a round, like the original's Try Again button going back to the Start screen. Key presses are handled in `Game.press_space(now)`; pygame's key repeat is off, so holding Space never counts as a second press.
 
 **Why:** these numbers came from the original game files; keep them unless the user asks for a change.
 **How to apply:** check new changes against this list, update it when the design changes, and add each change to [[changes-file-style]].
