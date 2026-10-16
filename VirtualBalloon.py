@@ -188,7 +188,11 @@ class Game:
                 self.fade_start_db, self.fade_start = self.music_db, now  # fade back in from here
                 self.lost_at = now
                 held = self.round.seconds_held(now)
-                self.say(f"You let go after {held} second{'s' if held != 1 else ''}. Hold Space to try again.")
+                if held == 0:
+                    after = "less than a second"
+                else:
+                    after = f"{held} second{'s' if held != 1 else ''}"
+                self.say(f"You let go after {after}. Hold Space to try again.")
                 self.state = "lost"
             elif event == "won":
                 self.state = "won"  # the inflating sound keeps playing, so the balloon pops

@@ -10,7 +10,7 @@ The music now fades down to -20 dB while you blow up the balloon, and back to -1
 The inflating and deflating sounds no longer overlap when you press and release Space quickly.
 The music now keeps playing while you hold and release Space, and stops when you win at 39 seconds.
 You can now press Escape to quit.
-If you let go early, the balloon deflates and the game tells you how many seconds you held on, and to hold Space to try again.
+If you let go early, the balloon deflates and the game tells you how many seconds you held on (or less than a second), and to hold Space to try again.
 Your screen reader can now speak the game's messages.
 Made the music play on the title screen at -10 dB, and stop while you blow up the balloon.
 If you hold on to the end, the balloon pops and the crowd cheers.
