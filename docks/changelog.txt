@@ -10,7 +10,7 @@ Removed most of the silence at the start of the left squeak sound.
 Fixed the balloon sounds sometimes getting quieter when you pressed and released Space quickly.
 The deflating sound now only plays for as long as you held Space, and the music comes back in that same time.
 Holding and releasing Space now has a 200 ms cooldown, so you can no longer spam the balloon.
-Removed the silence at the start of the inflating sound, and moved the win to 38.75 seconds to match.
+Removed the silence at the start of the inflating sound, and moved the win to match.
 The crowd cheer now stops when you press Space to play again, which you can do as soon as the cheer starts.
 The game now says "Inflating..." when you start holding Space.
 Pressing Space to play again after a win now takes you back to Ready, so the balloon only starts inflating on your next press.
@@ -20,7 +20,7 @@ You can now press Escape to quit.
 If you let go early, the balloon deflates and the game tells you how many seconds you held on (or less than a second), and to hold Space to try again.
 Your screen reader can now speak the game's messages.
 If you hold on to the end, the balloon pops and the crowd cheers.
-Made the game use the original timings: squeaks at 16, 26 and 32 seconds, and a win at 39 seconds.
+Made the game use the original game's timings for the squeaks and the win.
 You can now hold Space to blow up the balloon, and let go to stop.
 The On Beat jingle now plays when the game starts.
 Made the first version of Virtual Balloon, a remake of On Beat Limited's 2009 iPhone game.
